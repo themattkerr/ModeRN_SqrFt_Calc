@@ -69,7 +69,7 @@ void MainWindow::refreshFields(){
     ui->label_TotSqrFt->setText(QString::number((Home.getFinAboveSqrFt()+Home.getFinBelowSqrFt()),10));
     ui->tot_Cost_Per_Sqr_Ft_Label->setText(Home.getPricePerSqrFtTotal());
 
-    ui->horizontalSlider->setValue(Home.getPercentPriceBelow()*nCorrectionFactor);
+    ui->horizontalSlider->setValue(Home.getPercentPriceBelow());
 
     ui->label_RatioPriceAboveToBelow->setText(Home.getRatioAboveToBelowPricePerSqrFt());
 
