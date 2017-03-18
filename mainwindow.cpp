@@ -20,7 +20,7 @@ void MainWindow::on_horizontalSlider_valueChanged(int value)
 
     //ui->spinboxBelow ->setValue(value);
     //ui->spinAbove->setValue(100-value);
-    Home.enterPercentPriceBelow((value));
+    Home.enterPercentPriceBelow((value/10));
     refreshFields();
 }
 
@@ -69,12 +69,12 @@ void MainWindow::refreshFields(){
     ui->label_TotSqrFt->setText(QString::number((Home.getFinAboveSqrFt()+Home.getFinBelowSqrFt()),10));
     ui->tot_Cost_Per_Sqr_Ft_Label->setText(Home.getPricePerSqrFtTotal());
 
-    ui->horizontalSlider->setValue(Home.getPercentPriceBelow());
+    ui->horizontalSlider->setValue((Home.getPercentPriceBelow()*10));
 
     ui->label_RatioPriceAboveToBelow->setText(Home.getRatioAboveToBelowPricePerSqrFt());
 
-    ui->label_BelowPercent->setText(QString::number((Home.getPercentPriceBelow()/10), 10));
-    ui->label_AbovePercent->setText((QString::number(((1000-Home.getPercentPriceBelow())/10),10)));
+    ui->label_BelowPercent->setText(QString::number(static_cast<int>(Home.getPercentPriceBelow()), 10));
+    ui->label_AbovePercent->setText((QString::number((static_cast<int>(100-Home.getPercentPriceBelow())),10)));
 
 
     ui->cost_Per_Below_SqrFt_Label->setText(Home.getPricePerSqrFtBelow());

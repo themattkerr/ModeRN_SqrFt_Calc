@@ -48,7 +48,7 @@ void PropertySqrftStats::enterFinBelowSqrFt(int nFinBelowSqrFt)
 void PropertySqrftStats::enterPercentPriceBelow(double dFromSlider )
 {
     double Temp = dFromSlider;
-    m_dPercentPriceBelow = Temp/1000;
+    m_dPercentPriceBelow = Temp/100;
     refreshData();
 }
 
@@ -75,8 +75,6 @@ QString PropertySqrftStats::getPriceTotBelow()
 {  
         return doubleToCurrency(m_nPriceTotBelow, US_DOLLARS);
 }
-
-
 
 int PropertySqrftStats::getFinAboveSqrFt()
 {
@@ -114,15 +112,15 @@ QString PropertySqrftStats::getRatioAboveToBelowPricePerSqrFt()
     return QString::number(dTemp,'g',10);
 }
 
-int PropertySqrftStats::getPercentPriceBelow()
+double PropertySqrftStats::getPercentPriceBelow()
 {
-    return ((m_dPercentPriceBelow * 1000 )+.5);
+    return ((m_dPercentPriceBelow * 100 )+.5);
 }
 
 void PropertySqrftStats::calcPricePerSqrFtTotal()
 {
     if((m_nFinAboveSqrFt + m_nFinBelowSqrFt) > 0)
-        m_dPricePerSqrFtTotal = static_cast<int>(static_cast<double>(m_nPropertyPrice)/(m_nFinAboveSqrFt + m_nFinBelowSqrFt)+.5);
+        m_dPricePerSqrFtTotal = static_cast<int>(static_cast<double>((m_nPropertyPrice)/(m_nFinAboveSqrFt + m_nFinBelowSqrFt))+.5);
     else
        m_dPricePerSqrFtTotal = 0;
 }

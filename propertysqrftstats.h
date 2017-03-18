@@ -36,7 +36,7 @@ public:
 
     QString getRatioAboveToBelowPricePerSqrFt();
 
-    int getPercentPriceBelow();
+    double getPercentPriceBelow();
 
 
 
