@@ -26,10 +26,13 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += main.cpp\
         mainwindow.cpp \
     propertysqrftstats.cpp \
-    mattcalculations.cpp
+    mattcalculations.cpp \
+    maincompare.cpp
 
 HEADERS  += mainwindow.h \
     propertysqrftstats.h \
-    mattcalculations.h
+    mattcalculations.h \
+    maincompare.h
 
-FORMS    += mainwindow.ui
+FORMS    += mainwindow.ui \
+    maincompare.ui

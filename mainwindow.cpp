@@ -1,26 +1,33 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
+#include "maincompare.h"
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+    //temp = parent;
 }
 
 MainWindow::~MainWindow()
 {
+
     delete ui;
 }
 
 
+PropertySqrftStats MainWindow::getInfo()
+{
+    return Home;
+}
 
 void MainWindow::on_horizontalSlider_valueChanged(int value)
 {
 
     //ui->spinboxBelow ->setValue(value);
     //ui->spinAbove->setValue(100-value);
-    Home.enterPercentPriceBelow((value/10));
+    Home.enterPercentPriceBelow(static_cast<double>(value/10));
     refreshFields();
 }
 
@@ -57,8 +64,8 @@ void MainWindow::on_linePrice_textChanged(const QString &arg1)
 //    refreshFields();
 //}
 void MainWindow::refreshFields(){
-    int nCorrectionFactor = 1;
 
+    //temp->setupTable();
     ui->lineAddr->setText(Home.getAddress());
 
     ui->lineMLSNum->setText( Home.getMLSNumber());
@@ -73,8 +80,8 @@ void MainWindow::refreshFields(){
 
     ui->label_RatioPriceAboveToBelow->setText(Home.getRatioAboveToBelowPricePerSqrFt());
 
-    ui->label_BelowPercent->setText(QString::number(static_cast<int>(Home.getPercentPriceBelow()), 10));
-    ui->label_AbovePercent->setText((QString::number((static_cast<int>(100-Home.getPercentPriceBelow())),10)));
+    ui->label_BelowPercent->setText(QString::number(static_cast<int>(Home.getPercentPriceBelow()+.5), 10));
+    ui->label_AbovePercent->setText((QString::number((static_cast<int>(100-Home.getPercentPriceBelow()+.5)),10)));
 
 
     ui->cost_Per_Below_SqrFt_Label->setText(Home.getPricePerSqrFtBelow());

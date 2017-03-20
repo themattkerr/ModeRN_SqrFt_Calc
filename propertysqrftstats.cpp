@@ -114,7 +114,7 @@ QString PropertySqrftStats::getRatioAboveToBelowPricePerSqrFt()
 
 double PropertySqrftStats::getPercentPriceBelow()
 {
-    return ((m_dPercentPriceBelow * 100 )+.5);
+    return (m_dPercentPriceBelow * 100 );
 }
 
 void PropertySqrftStats::calcPricePerSqrFtTotal()
