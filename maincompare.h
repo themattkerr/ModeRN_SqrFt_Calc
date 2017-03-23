@@ -36,16 +36,24 @@ private slots:
 
     void on_actionExport_CSV_triggered();
 
+    void on_actionSave_As_triggered();
+
+    void on_actionSave_triggered();
+
+    void on_actionOpen_triggered();
+
 private:
     Ui::MainCompare *ui;
     MainWindow m_Property[MAX_NUM_OF_PROPERTIES];
-    int m_nCurrentNumOfProperties = 1;
+    int m_nCurrentNumOfProperties = 0;
     QStringList m_strlTitles;
 
     void initializeVariables();
     void setupTableHeaders();
     QString m_strFileName;
     bool saveCSVFile();
+    bool saveSqrFtFile();
+    bool openSqrFtFile();
 };
 
 #endif // MAINCOMPARE_H

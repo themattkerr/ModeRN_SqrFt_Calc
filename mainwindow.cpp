@@ -7,7 +7,10 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+
+    ui->horizontalSlider->setValue(static_cast<int>(Home.getPercentPriceBelow()*10));
     //temp = parent;
+    refreshFields();
 }
 
 MainWindow::~MainWindow()
@@ -24,10 +27,8 @@ PropertySqrftStats MainWindow::getInfo()
 
 void MainWindow::on_horizontalSlider_valueChanged(int value)
 {
-
-    //ui->spinboxBelow ->setValue(value);
-    //ui->spinAbove->setValue(100-value);
-    Home.enterPercentPriceBelow(static_cast<double>(value/10));
+    double dTemp = value;
+    Home.enterPercentPriceBelow(dTemp/10);
     refreshFields();
 }
 
@@ -50,22 +51,12 @@ void MainWindow::on_linePrice_textChanged(const QString &arg1)
 }
 
 
-//void MainWindow::on_lineAbove_textChanged(const QString &arg1)
-//{
-//    bool *ok =0;
-//    Home.enterFinAboveSqrFt(arg1.toInt(ok,10));
-//    refreshFields();
-//}
 
-//void MainWindow::on_lineBelow_textChanged(const QString &arg1)
-//{
-//    bool *ok =0;
-//    Home.enterFinBelowSqrFt(arg1.toInt(ok,10));
-//    refreshFields();
-//}
-void MainWindow::refreshFields(){
+void MainWindow::refreshFields()
+{
 
-    //temp->setupTable();
+    ui->horizontalSlider->setValue(static_cast<int>((Home.getPercentPriceBelow()*10)+.5));
+
     ui->lineAddr->setText(Home.getAddress());
 
     ui->lineMLSNum->setText( Home.getMLSNumber());
@@ -74,15 +65,14 @@ void MainWindow::refreshFields(){
     ui->spinBoxFinAbove->setValue(Home.getFinAboveSqrFt());
     ui->spinBoxFinBelow->setValue(Home.getFinBelowSqrFt());
     ui->label_TotSqrFt->setText(QString::number((Home.getFinAboveSqrFt()+Home.getFinBelowSqrFt()),10));
-    ui->tot_Cost_Per_Sqr_Ft_Label->setText(Home.getPricePerSqrFtTotal());
 
-    ui->horizontalSlider->setValue((Home.getPercentPriceBelow()*10));
+
+    ui->tot_Cost_Per_Sqr_Ft_Label->setText(Home.getPricePerSqrFtTotal());
 
     ui->label_RatioPriceAboveToBelow->setText(Home.getRatioAboveToBelowPricePerSqrFt());
 
-    ui->label_BelowPercent->setText(QString::number(static_cast<int>(Home.getPercentPriceBelow()+.5), 10));
-    ui->label_AbovePercent->setText((QString::number((static_cast<int>(100-Home.getPercentPriceBelow()+.5)),10)));
-
+    ui->label_BelowPercent->setText(QString::number(/*static_cast<int>*/(Home.getPercentPriceBelow()),'g', 6));
+    ui->label_AbovePercent->setText((QString::number(/*(static_cast<int>*/(100-Home.getPercentPriceBelow()),'g',6)));
 
     ui->cost_Per_Below_SqrFt_Label->setText(Home.getPricePerSqrFtBelow());
     ui->cost_per_above_sqr_ft->setText(Home.getPricePerSqrFtAbove());

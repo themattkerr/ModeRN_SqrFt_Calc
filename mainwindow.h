@@ -16,7 +16,9 @@ class MainWindow : public QMainWindow
 public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
-    PropertySqrftStats getInfo();
+     PropertySqrftStats getInfo();
+     PropertySqrftStats Home;
+     void refreshFields();
 private slots:
 
     void on_horizontalSlider_valueChanged(int value);
@@ -28,8 +30,8 @@ private slots:
 
 private:
     Ui::MainWindow *ui;
-    PropertySqrftStats Home;
-    void refreshFields();
+
+
     //MainCompare *temp = 0;
 };
 

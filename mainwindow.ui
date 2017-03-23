@@ -10,7 +10,7 @@
     <x>0</x>
     <y>0</y>
     <width>644</width>
-    <height>373</height>
+    <height>397</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -466,6 +466,9 @@
         <property name="tickPosition">
          <enum>QSlider::NoTicks</enum>
         </property>
+        <property name="tickInterval">
+         <number>100</number>
+        </property>
        </widget>
       </item>
      </layout>
@@ -491,7 +494,7 @@
      <x>0</x>
      <y>0</y>
      <width>644</width>
-     <height>20</height>
+     <height>21</height>
     </rect>
    </property>
   </widget>
