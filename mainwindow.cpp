@@ -11,6 +11,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->horizontalSlider->setValue(static_cast<int>(Home.getPercentPriceBelow()*10));
     //temp = parent;
     refreshFields();
+
 }
 
 MainWindow::~MainWindow()
@@ -29,6 +30,7 @@ void MainWindow::on_horizontalSlider_valueChanged(int value)
 {
     double dTemp = value;
     Home.enterPercentPriceBelow(dTemp/10);
+//        ((MainWindow*)parentWidget())->setupTable();
     refreshFields();
 }
 
@@ -54,6 +56,7 @@ void MainWindow::on_linePrice_textChanged(const QString &arg1)
 
 void MainWindow::refreshFields()
 {
+
 
     ui->horizontalSlider->setValue(static_cast<int>((Home.getPercentPriceBelow()*10)+.5));
 

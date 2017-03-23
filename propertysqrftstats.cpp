@@ -163,3 +163,24 @@ void PropertySqrftStats::refreshData()
      calcPriceAbove();
      calcPriceBelow();
 }
+PropertySqrftStats& PropertySqrftStats::operator= (const PropertySqrftStats &source)
+{
+    if(this==&source)
+        return *this;
+     m_strAddress = source.m_strAddress;
+     m_strMLSNumber = source.m_strMLSNumber;
+
+     m_nPropertyPrice = source.m_nPropertyPrice;
+     m_nPriceTotAbove = source.m_nPriceTotAbove;
+     m_nPriceTotBelow = source.m_nPriceTotBelow;
+
+     m_nFinAboveSqrFt = source.m_nFinAboveSqrFt;
+     m_nFinBelowSqrFt = source.m_nFinBelowSqrFt;
+     m_dPricePerSqrFtTotal = source.m_dPricePerSqrFtTotal;
+     m_dPricePerSqrFtAbove = source.m_dPricePerSqrFtAbove;
+     m_dPricePerSqrFtBelow = source.m_dPricePerSqrFtBelow;
+
+     m_dPercentPriceBelow = source.m_dPercentPriceBelow;
+     m_dRatioAboveToBelowPricePerSqrFt = source.m_dRatioAboveToBelowPricePerSqrFt;
+
+}

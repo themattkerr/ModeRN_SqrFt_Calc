@@ -42,6 +42,8 @@ private slots:
 
     void on_actionOpen_triggered();
 
+    void on_actionDelete_Selected_triggered();
+
 private:
     Ui::MainCompare *ui;
     MainWindow m_Property[MAX_NUM_OF_PROPERTIES];

@@ -14,6 +14,7 @@ MainCompare::MainCompare(QWidget *parent) :
     ui->setupUi(this);
     setupTableHeaders();
     setupTable();
+
 }
 
 MainCompare::~MainCompare()
@@ -108,6 +109,7 @@ m_strlTitles
 
 void MainCompare::on_pushButton_2_clicked()
 {
+    setupTable();
     for (int iii = 0; iii < MAX_NUM_OF_PROPERTIES; iii++)
         m_Property[iii].close();
 }
@@ -295,3 +297,19 @@ bool MainCompare::openSqrFtFile()
     }
 }
 
+
+void MainCompare::on_actionDelete_Selected_triggered()
+{
+    int nPropertyToDelete;
+    if(nPropertyToDelete == (MAX_NUM_OF_PROPERTIES - 1))
+            return;
+    nPropertyToDelete = ui->tableWidget->currentRow();
+    for(int iii = nPropertyToDelete; iii < m_nCurrentNumOfProperties; iii++)
+    {
+        m_Property[iii].Home = m_Property[(iii+1)].Home;
+        m_Property[iii].refreshFields();
+        m_Property[(iii+1)].refreshFields();
+    }
+    m_nCurrentNumOfProperties--;
+    setupTable();
+}

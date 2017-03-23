@@ -38,7 +38,7 @@ public:
 
     double getPercentPriceBelow();
 
-
+    PropertySqrftStats& operator= (const PropertySqrftStats &source);
 
 
 private:
