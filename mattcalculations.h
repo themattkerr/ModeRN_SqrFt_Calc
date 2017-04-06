@@ -1,7 +1,7 @@
 #ifndef MATTCALCULATIONS
 #define MATTCALCULATIONS
 
-#define VERSION_OF_MATTCALCULATIONS "1.2.0"
+#define VERSION_OF_MATTCALCULATIONS "1.2.1"
 
 #include <qstring.h>
 #include <QDate>
@@ -32,5 +32,8 @@ bool  isNationalHoliday(QDate dtDayToTest, QString &strHolidayName);
 void  dayOfWeekStats(QDate dtDay, int &nDayOfWeek, int &nHowManyOfDayOfWeekInMonth, int &occuranceOfDayOfWeekInMonth);
 QDate dateBusinessDaysAway(QDate dtInputDate, int nNumOfBusinessDays, QString &strListOfDaysOff);
 int   numOfBusinessDaysBetween(QDate dtStartDate, QDate dtEndDate, QString &strListOfDaysOff);
+
+QString splitString(QString CSVLine);
+
 #endif // MATTCALCULATIONS
 

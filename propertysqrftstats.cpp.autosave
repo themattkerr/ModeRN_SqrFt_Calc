@@ -35,8 +35,7 @@ void PropertySqrftStats::enterMLSNumber(QString MLSNum)
 
 void PropertySqrftStats::enterPropertyPrice(QString strPrice)
 {
-    int nPropertyPrice = (usDollarsStringToDouble(strPrice));
-//    m_nPropertyPrice = nPropertyPrice - m_nLandAssess;
+    m_nPropertyPrice = (usDollarsStringToDouble(strPrice));    
     if (m_nPropertyPrice < 0)
         m_nPropertyPrice = 0;
     refreshData();

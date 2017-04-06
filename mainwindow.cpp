@@ -7,7 +7,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-
+    setWindowFlags(Qt::WindowStaysOnTopHint);
     ui->horizontalSlider->setValue(static_cast<int>(Home.getPercentPriceBelow()*10));
     //temp = parent;
     refreshFields();
@@ -57,7 +57,7 @@ void MainWindow::on_linePrice_textChanged(const QString &arg1)
 void MainWindow::refreshFields()
 {
 
-
+    //((MainCompare*)parentWidget())->setupTable();
     ui->horizontalSlider->setValue(static_cast<int>((Home.getPercentPriceBelow()*10)+.5));
 
     ui->lineAddr->setText(Home.getAddress());

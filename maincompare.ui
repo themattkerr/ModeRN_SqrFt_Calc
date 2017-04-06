@@ -64,7 +64,7 @@
      <x>0</x>
      <y>0</y>
      <width>800</width>
-     <height>21</height>
+     <height>26</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
@@ -75,6 +75,7 @@
     <addaction name="actionSave_As"/>
     <addaction name="actionSave"/>
     <addaction name="actionOpen"/>
+    <addaction name="actionImport_Paragon_CSV"/>
    </widget>
    <widget class="QMenu" name="menuEdit">
     <property name="title">
@@ -112,6 +113,11 @@
   <action name="actionDelete_Selected">
    <property name="text">
     <string>Delete Selected</string>
+   </property>
+  </action>
+  <action name="actionImport_Paragon_CSV">
+   <property name="text">
+    <string>Import Paragon CSV</string>
    </property>
   </action>
  </widget>

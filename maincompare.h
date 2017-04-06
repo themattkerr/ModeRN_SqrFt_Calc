@@ -3,8 +3,18 @@
 
 #include <QMainWindow>
 #include "mainwindow.h"
+#include <QFile>
+#include <QFileDialog>
+#include <QMessageBox>
+#include <QTextStream>
+#include <qdebug.h>
 
 #define MAX_NUM_OF_PROPERTIES 250
+
+enum
+{
+    TITLE_LINE = 0,
+};
 
 namespace Ui {
 class MainCompare;
@@ -44,6 +54,8 @@ private slots:
 
     void on_actionDelete_Selected_triggered();
 
+    void on_actionImport_Paragon_CSV_triggered();
+
 private:
     Ui::MainCompare *ui;
     MainWindow m_Property[MAX_NUM_OF_PROPERTIES];
@@ -56,6 +68,7 @@ private:
     bool saveCSVFile();
     bool saveSqrFtFile();
     bool openSqrFtFile();
+    bool importCSV(QString strFileName);
 };
 
 #endif // MAINCOMPARE_H

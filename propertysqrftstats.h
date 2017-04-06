@@ -17,6 +17,10 @@ public:
     void enterFinAboveSqrFt(int nFinAboveSqrFt);
     void enterFinBelowSqrFt(int nFinBelowSqrFt);
     void enterPercentPriceBelow(double dFromSlider );
+    void enterRatioAboveToBelowPricePerSqrFt(double dRatio);
+
+    void enterLotSize(int nLotSizeAcers);
+    void enterLandAssess(int nLandAssess);
 
 
 
@@ -58,6 +62,10 @@ private:
 
     double m_dPercentPriceBelow;
     double m_dRatioAboveToBelowPricePerSqrFt;
+
+    int m_nLotSizeAcers;
+    int m_nLandAssess;
+    int m_nTotalPrice;
 
 
     void calcPricePerSqrFtTotal();

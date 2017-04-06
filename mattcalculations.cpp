@@ -260,4 +260,24 @@ int   numOfBusinessDaysBetween(QDate dtStartDate, QDate dtEndDate, QString &strL
     strListOfDaysOff = "Error";
     return -1;
 }
+QString splitString(QString CSVLine)
+{
+    int nLength = CSVLine.length();
+    bool bSkipComma = false;
+    for(int iii = 0; iii < nLength; iii++)
+    {
+        if(CSVLine[iii] == '"')//skip comma toggle funtion
+        {
+            if(bSkipComma)
+                bSkipComma = false;
+            else
+                bSkipComma = true;
+        }
+        if (!bSkipComma)
+            if(CSVLine[iii] == ',')
+                CSVLine[iii] = '|';
+    }
+    CSVLine.remove('"');
+    return CSVLine;
+}
 

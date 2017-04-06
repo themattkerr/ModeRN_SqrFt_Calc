@@ -1,10 +1,7 @@
 #include "maincompare.h"
 #include "ui_maincompare.h"
 
-#include <QFile>
-#include <QFileDialog>
-#include <QMessageBox>
-#include <QTextStream>
+
 
 
 MainCompare::MainCompare(QWidget *parent) :
@@ -297,6 +294,93 @@ bool MainCompare::openSqrFtFile()
     }
 }
 
+bool MainCompare::importCSV(QString strFileName)
+{
+    QFile CSVFile(strFileName);
+    if (!CSVFile.open(QIODevice::ReadOnly))
+    {
+        return false;
+    }
+
+    int nNumOfEntries = 0;
+    QStringList strlFieldInfo[MAX_NUM_OF_PROPERTIES];
+    while (!CSVFile.atEnd())
+    {
+        QString temp = CSVFile.readLine();
+        temp = splitString(temp);
+        temp.remove("\r\n");
+        strlFieldInfo[nNumOfEntries].append(temp.split('|'));
+        nNumOfEntries++;
+    }
+
+    int nNumberOfFields = 0;
+    nNumberOfFields = strlFieldInfo[TITLE_LINE].count() ;
+
+    int nLocationOfAddress = strlFieldInfo[TITLE_LINE].indexOf("Address");
+    int nLocationOfAboveGradeSqFt = strlFieldInfo[TITLE_LINE].indexOf("Above Grade SqFt");
+    int nLocationOfMLSNum = strlFieldInfo[TITLE_LINE].indexOf("MLS #");
+    int nLocationOfSoldPrice = strlFieldInfo[TITLE_LINE].indexOf("Sold Price");
+    int nLocationOfListPrice = strlFieldInfo[TITLE_LINE].indexOf("Price");
+    int nLocationOfFinishedSqFt = strlFieldInfo[TITLE_LINE].indexOf("Finished SqFt");
+    int nLocationOfLandAssess = strlFieldInfo[TITLE_LINE].indexOf("Land Assess");
+    int nLocationOfLotSize = strlFieldInfo[TITLE_LINE].indexOf("Est. Total Acres");
+
+    if (nLocationOfAboveGradeSqFt > nNumberOfFields || nLocationOfAboveGradeSqFt <= 0)
+    {
+        nLocationOfAboveGradeSqFt = 0;
+        return false;
+    }
+    if (nLocationOfFinishedSqFt > nNumberOfFields || nLocationOfFinishedSqFt <= 0)
+    {
+        nLocationOfFinishedSqFt = 0;
+        return false;
+    }
+
+    m_nCurrentNumOfProperties = nNumOfEntries-1;
+    nNumberOfFields = strlFieldInfo[TITLE_LINE].count() ;
+    for(int jjj = 1, III = 0; jjj < nNumOfEntries; jjj++, III++)
+    {
+            bool ok;
+            m_Property[III].Home.enterAddress(strlFieldInfo[jjj][nLocationOfAddress]);
+            QString strAbove = strlFieldInfo[jjj][nLocationOfAboveGradeSqFt];
+            int nAboveSqrFt;
+                    strAbove.remove(',');
+                   nAboveSqrFt = strAbove.toInt(&ok, 10);
+
+            m_Property[III].Home.enterFinAboveSqrFt(nAboveSqrFt);
+
+            QString strTotSqrFt = strlFieldInfo[jjj][nLocationOfFinishedSqFt];
+            strTotSqrFt.remove(',');
+            int nTotSqrFt = strTotSqrFt.toInt(&ok, 10);
+            int nBelowSqrFt = nTotSqrFt - nAboveSqrFt;
+            if (nBelowSqrFt < 0)
+                return false;
+            m_Property[III].Home.enterFinBelowSqrFt(nBelowSqrFt);
+
+            m_Property[III].Home.enterMLSNumber(strlFieldInfo[jjj][nLocationOfMLSNum]);
+
+            //m_Property[III].Home.enterPercentPriceBelow(dPercentPriceBelow);
+            if(usDollarsStringToDouble(strlFieldInfo[jjj][nLocationOfSoldPrice]) < .5)
+                m_Property[III].Home.enterPropertyPrice(strlFieldInfo[jjj][nLocationOfListPrice]);
+            else
+                m_Property[III].Home.enterPropertyPrice(strlFieldInfo[jjj][nLocationOfSoldPrice]);
+
+            //set the default ratio to 5x
+            double dRatio = 5.0;
+            m_Property[III].Home.enterRatioAboveToBelowPricePerSqrFt(dRatio);
+
+
+            if(!ok)
+            {
+                QMessageBox openStatus;
+                openStatus.setWindowTitle("");
+                    openStatus.setText("Conversion failed!");
+                openStatus.exec();
+            }
+            m_Property[III].refreshFields();
+    }
+    return true;
+}
 
 void MainCompare::on_actionDelete_Selected_triggered()
 {
@@ -312,4 +396,27 @@ void MainCompare::on_actionDelete_Selected_triggered()
     }
     m_nCurrentNumOfProperties--;
     setupTable();
+}
+
+void MainCompare::on_actionImport_Paragon_CSV_triggered()
+{
+    {
+        {
+            QString FileName = QFileDialog::getOpenFileName (this, tr("Import .csv File"), "",tr("*.csv"));
+
+            bool ok = false;
+            QMessageBox openStatus;
+            openStatus.setWindowTitle("");
+            ok = importCSV(FileName);
+            if(ok)
+            {
+                openStatus.setText("Open Successful!");
+            }
+            else
+            {
+                openStatus.setText("Open Failed!!!");
+            }
+            openStatus.exec();
+        }
+    }
 }
