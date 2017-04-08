@@ -19,9 +19,9 @@ PropertySqrftStats::PropertySqrftStats()
 
      m_dRatioAboveToBelowPricePerSqrFt = 0;
 
-     m_nLotSizeAcers = 0;
+
      m_nLandAssess = 0;
-     m_nTotalPrice = 0;
+
 }
 
 void PropertySqrftStats::enterAddress(QString addr)
@@ -35,8 +35,7 @@ void PropertySqrftStats::enterMLSNumber(QString MLSNum)
 
 void PropertySqrftStats::enterPropertyPrice(QString strPrice)
 {
-    int nPropertyPrice = (usDollarsStringToDouble(strPrice));
-//    m_nPropertyPrice = nPropertyPrice - m_nLandAssess;
+    m_nPropertyPrice = (usDollarsStringToDouble(strPrice));
     if (m_nPropertyPrice < 0)
         m_nPropertyPrice = 0;
     refreshData();
@@ -71,17 +70,35 @@ void PropertySqrftStats::enterRatioAboveToBelowPricePerSqrFt(double dRatio)  // 
     refreshData();
 }
 
-void  PropertySqrftStats::enterLotSize(int nLotSizeAcers)
+void PropertySqrftStats::enterLotSize(int nLotSizeAcers)
 {
 
 }
 
-void  PropertySqrftStats::enterLandAssess(int nLandAssess)
+void PropertySqrftStats::enterLandAssess(int nLandAssess)
 {
-//    m_nLandAssess = nLandAssess;
-//    m_nPropertyPrice = m_nTotalPrice - nLandAssess;
+
 }
 
+void PropertySqrftStats::enterTotalAssess(int nTotalAssess)
+{
+
+}
+
+void PropertySqrftStats::enterAdjustedPrice(int nAdjustedPrice)
+{
+
+}
+
+void PropertySqrftStats::enterRatioLandToTotal(double dRatioLandToTotal)
+{
+
+}
+
+void PropertySqrftStats::enterLotSizeAcres (double dLotSizeAcres)
+{
+
+}
 
 QString PropertySqrftStats::getAddress()
 {
@@ -146,6 +163,21 @@ QString PropertySqrftStats::getRatioAboveToBelowPricePerSqrFt()
 double PropertySqrftStats::getPercentPriceBelow()
 {
     return (m_dPercentPriceBelow * 100 );
+}
+
+void PropertySqrftStats::calcAdjustedPrice()
+{
+    if(m_nTotalAssess < 0)
+    {
+        m_dRatioLandToTotal = (m_nLandAssess/m_nTotalAssess);
+        m_nAdjustedPrice = m_dRatioLandToTotal*m_nPropertyPrice;
+    }
+    else
+    {
+        m_dRatioLandToTotal = 0;
+        m_nAdjustedPrice = 0;
+    }
+
 }
 
 void PropertySqrftStats::calcPricePerSqrFtTotal()

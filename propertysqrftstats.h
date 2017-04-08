@@ -21,6 +21,10 @@ public:
 
     void enterLotSize(int nLotSizeAcers);
     void enterLandAssess(int nLandAssess);
+    void enterTotalAssess(int nTotalAssess);
+    void enterAdjustedPrice(int nAdjustedPrice);
+    void enterRatioLandToTotal(double dRatioLandToTotal);
+    void enterLotSizeAcres (double dLotSizeAcres);
 
 
 
@@ -63,11 +67,14 @@ private:
     double m_dPercentPriceBelow;
     double m_dRatioAboveToBelowPricePerSqrFt;
 
-    int m_nLotSizeAcers;
+
     int m_nLandAssess;
-    int m_nTotalPrice;
+    int m_nTotalAssess;
+    int m_nAdjustedPrice;
+    double m_dRatioLandToTotal;
+    double m_dLotSizeAcers;
 
-
+    void calcAdjustedPrice();
     void calcPricePerSqrFtTotal();
     void calcPricePerSqrFtBelow();
     void calcPricePerSqrFtAbove();

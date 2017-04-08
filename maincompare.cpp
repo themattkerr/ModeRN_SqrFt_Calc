@@ -322,8 +322,10 @@ bool MainCompare::importCSV(QString strFileName)
     int nLocationOfSoldPrice = strlFieldInfo[TITLE_LINE].indexOf("Sold Price");
     int nLocationOfListPrice = strlFieldInfo[TITLE_LINE].indexOf("Price");
     int nLocationOfFinishedSqFt = strlFieldInfo[TITLE_LINE].indexOf("Finished SqFt");
+
     int nLocationOfLandAssess = strlFieldInfo[TITLE_LINE].indexOf("Land Assess");
     int nLocationOfLotSize = strlFieldInfo[TITLE_LINE].indexOf("Est. Total Acres");
+    int nLocationOfTotalAssess = strlFieldInfo[TITLE_LINE].indexOf("Total Assess");
 
     if (nLocationOfAboveGradeSqFt > nNumberOfFields || nLocationOfAboveGradeSqFt <= 0)
     {
