@@ -183,7 +183,10 @@ void PropertySqrftStats::calcAdjustedPrice()
 void PropertySqrftStats::calcPricePerSqrFtTotal()
 {
     if((m_nFinAboveSqrFt + m_nFinBelowSqrFt) > 0)
-        m_dPricePerSqrFtTotal = static_cast<int>(static_cast<double>((m_nPropertyPrice)/(m_nFinAboveSqrFt + m_nFinBelowSqrFt))+.5);
+    {
+        double dTempPricePerSqrFtTotal = static_cast<double>((((10*m_nPropertyPrice)/(m_nFinAboveSqrFt + m_nFinBelowSqrFt))+5)/10);
+        m_dPricePerSqrFtTotal = static_cast<int>(dTempPricePerSqrFtTotal);
+    }
     else
        m_dPricePerSqrFtTotal = 0;
 }
