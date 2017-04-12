@@ -25,6 +25,7 @@ public:
     void enterAdjustedPrice(int nAdjustedPrice);
     void enterRatioLandToTotal(double dRatioLandToTotal);
     void enterLotSizeAcres (double dLotSizeAcres);
+    void enterPricePerAcres (double dPricePerAcre);
 
 
 
@@ -45,6 +46,15 @@ public:
     QString getRatioAboveToBelowPricePerSqrFt();
 
     double getPercentPriceBelow();
+
+    int getLandAssesses();
+
+    QString getAdjustedPropertyPrice();
+//    QString getAdjustedPriceTotAbove();
+//    QString getAdjustedPriceTotBelow();
+    QString getAdjustedPricePerSqrFtTotal();
+    QString getAdjustedPricePerSqrFtAbove();
+    QString getAdjustedPricePerSqrFtBelow();
 
     PropertySqrftStats& operator= (const PropertySqrftStats &source);
 
@@ -70,9 +80,15 @@ private:
 
     int m_nLandAssess;
     int m_nTotalAssess;
+
     int m_nAdjustedPrice;
     double m_dRatioLandToTotal;
-    double m_dLotSizeAcers;
+    double m_dLotSizeAcres;
+    double m_dPricePerAcre;
+
+    double m_dAdjustedPricePerSqrFtTotal;
+    double m_dAdjustedPricePerSqrFtAbove;
+    double m_dAdjustedPricePerSqrFtBelow;
 
     void calcAdjustedPrice();
     void calcPricePerSqrFtTotal();
@@ -81,6 +97,10 @@ private:
     void calcRatioAboveToBelowPricePerSqrFt();
     void calcPriceAbove();
     void calcPriceBelow();
+
+    void calcAdjustedPricePerSqrFtTotal();
+    void calcAdjustedPricePerSqrFtBelow();
+    void calcAdjustedPricePerSqrFtAbove();
 
     void refreshData();
 

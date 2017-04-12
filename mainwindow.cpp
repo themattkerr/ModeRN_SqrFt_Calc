@@ -83,7 +83,11 @@ void MainWindow::refreshFields()
     ui->cost_Below_Label->setText(Home.getPriceTotBelow());
     ui->cost_Above_Label->setText(Home.getPriceTotAbove());
 
+    ui->label_AdjPricePerSqrFtAbove->setText(Home.getAdjustedPricePerSqrFtAbove());
+    ui->label_AdjPricePerSqrFtBelow->setText(Home.getAdjustedPricePerSqrFtBelow());
 
+    ui->label_AdjPricePerSqrFtTot->setText(Home.getAdjustedPricePerSqrFtTotal());
+    ui->lineEdit_LandAssesses->setText(doubleToCurrency(Home.getLandAssesses(),US_DOLLARS));
 
 }
 
@@ -97,4 +101,11 @@ void MainWindow::on_spinBoxFinBelow_valueChanged(int arg1)
 {
     Home.enterFinBelowSqrFt(arg1);
     refreshFields();
+}
+
+void MainWindow::on_lineEdit_LandAssesses_editingFinished()
+{
+        int nTempLandAssesses = usDollarsStringToDouble(ui->lineEdit_LandAssesses->text());
+        Home.enterLandAssess(nTempLandAssesses);
+        refreshFields();
 }

@@ -28,6 +28,8 @@ private slots:
     void on_spinBoxFinAbove_valueChanged(int arg1);
     void on_spinBoxFinBelow_valueChanged(int arg1);
 
+    void on_lineEdit_LandAssesses_editingFinished();
+
 private:
     Ui::MainWindow *ui;
 

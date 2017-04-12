@@ -30,7 +30,7 @@ void MainCompare::on_pushButton_AddProperty_clicked()
 
 void MainCompare::setupTable()
 {
-    int nTotalNumOfFields = 14;
+    int nTotalNumOfFields = NUM_OF_FIELDS;
     int nColumn = 0;
     ui->tableWidget->setColumnCount(nTotalNumOfFields);
     ui->tableWidget->setRowCount(m_nCurrentNumOfProperties);
@@ -45,7 +45,7 @@ void MainCompare::setupTable()
         ui->tableWidget->setItem(nRow, ++nColumn, new QTableWidgetItem (  QString::number(m_Property[nRow].getInfo().getFinAboveSqrFt() + m_Property[nRow].getInfo().getFinBelowSqrFt()) ));
         ui->tableWidget->setItem(nRow, ++nColumn, new QTableWidgetItem (  QString::number(m_Property[nRow].getInfo().getFinAboveSqrFt()) ));
         ui->tableWidget->setItem(nRow, ++nColumn, new QTableWidgetItem (  QString::number(m_Property[nRow].getInfo().getFinBelowSqrFt()) ));
-        // need total sqrftg
+
         ui->tableWidget->setItem(nRow, ++nColumn, new QTableWidgetItem (  m_Property[nRow].getInfo().getPricePerSqrFtTotal() ));
         ui->tableWidget->setItem(nRow, ++nColumn, new QTableWidgetItem (  m_Property[nRow].getInfo().getPricePerSqrFtAbove() ));
         ui->tableWidget->setItem(nRow, ++nColumn, new QTableWidgetItem (  m_Property[nRow].getInfo().getPricePerSqrFtBelow() ));
@@ -55,7 +55,13 @@ void MainCompare::setupTable()
         ui->tableWidget->setItem(nRow, ++nColumn, new QTableWidgetItem (  QString::number(100 - m_Property[nRow].getInfo().getPercentPriceBelow()) ));
 
         ui->tableWidget->setItem(nRow, ++nColumn, new QTableWidgetItem (  m_Property[nRow].getInfo().getPriceTotAbove() ));
-        ui->tableWidget->setItem(nRow, ++nColumn,new QTableWidgetItem ( m_Property[nRow].getInfo().getPriceTotBelow()));
+        ui->tableWidget->setItem(nRow, ++nColumn, new QTableWidgetItem (  m_Property[nRow].getInfo().getPriceTotBelow()));
+
+        ui->tableWidget->setItem(nRow, ++nColumn, new QTableWidgetItem (  m_Property[nRow].getInfo().getAdjustedPropertyPrice()));
+        ui->tableWidget->setItem(nRow, ++nColumn, new QTableWidgetItem (  m_Property[nRow].getInfo().getAdjustedPricePerSqrFtTotal()));
+        ui->tableWidget->setItem(nRow, ++nColumn, new QTableWidgetItem (  m_Property[nRow].getInfo().getAdjustedPricePerSqrFtAbove()));
+        ui->tableWidget->setItem(nRow, ++nColumn, new QTableWidgetItem (  m_Property[nRow].getInfo().getAdjustedPricePerSqrFtBelow()));
+
     }
 }
 
@@ -101,7 +107,13 @@ m_strlTitles
            << "% Price Below"
            << "% Price Above"
            << "Price of Above"
-           << "Price of Below";
+           << "Price of Below"
+           << "Price w/o Land"
+
+           << "Adj Total Price/SqrFt"
+           << "Adj Above Price/SqrFt"
+           << "Adj Below Price/SqrFt"
+              ;
 }
 
 void MainCompare::on_pushButton_2_clicked()
@@ -138,7 +150,7 @@ bool MainCompare::saveCSVFile()
     {
         QTextStream stream(&CSV);
         int iii = 0;
-        while (iii < 14)
+        while (iii < NUM_OF_FIELDS)
         {
             stream << m_strlTitles[iii];
             stream << ",";
@@ -166,7 +178,13 @@ bool MainCompare::saveCSVFile()
                  <<  QString::number(100 - m_Property[jjj].getInfo().getPercentPriceBelow()) << ","
 
                  <<  m_Property[jjj].getInfo().getPriceTotAbove().remove(',') << ","
-                 <<  m_Property[jjj].getInfo().getPriceTotBelow().remove(',')  << "\n";
+                 <<  m_Property[jjj].getInfo().getPriceTotBelow().remove(',') << ","
+
+                  << m_Property[jjj].getInfo().getAdjustedPropertyPrice().remove(',') << ","
+                  << m_Property[jjj].getInfo().getAdjustedPricePerSqrFtTotal().remove(',') << ","
+                  << m_Property[jjj].getInfo().getAdjustedPricePerSqrFtAbove().remove(',') << ","
+                  << m_Property[jjj].getInfo().getAdjustedPricePerSqrFtBelow().remove(',')
+                  << "\n";
         }
         return true;
     }
@@ -201,7 +219,7 @@ bool MainCompare::saveSqrFtFile()
     {
         QDataStream outputData(&SaveFile);
         MainWindow *x = 0;
-        QString strVerNum = "1.0.0";
+        QString strVerNum = "1.2.1";
         outputData <<  strVerNum;
         outputData << m_nCurrentNumOfProperties;
         for(int iii = 0; iii < MAX_NUM_OF_PROPERTIES; iii++)
@@ -213,6 +231,7 @@ bool MainCompare::saveSqrFtFile()
             outputData << x->getInfo().getMLSNumber();
             outputData << x->getInfo().getPercentPriceBelow();
             outputData << x->getInfo().getPropertyPrice();
+            outputData << x->getInfo().getLandAssesses();
         }
         return true;
     }
@@ -261,6 +280,7 @@ bool MainCompare::openSqrFtFile()
     int nFinAboveSqrFt;
     int nFinBelowSqrFt;
     double dPercentPriceBelow;
+    int nLandAssesses;
 
 
     QFile ReadFile(m_strFileName);
@@ -287,6 +307,30 @@ bool MainCompare::openSqrFtFile()
                 m_Property[zzz].Home.enterMLSNumber(strMLSNumber);
                 m_Property[zzz].Home.enterPercentPriceBelow(dPercentPriceBelow);
                 m_Property[zzz].Home.enterPropertyPrice(strPropertyPrice);
+            }
+            return true;
+        }
+        if(strVerNum == "1.2.1")
+        {
+            inputData >> nCurrentNumOfProperties;
+            m_nCurrentNumOfProperties = nCurrentNumOfProperties;
+            for(int zzz=0 ; zzz < MAX_NUM_OF_PROPERTIES ; zzz++)
+            {
+                inputData >> strAddress;
+                inputData >> nFinAboveSqrFt;
+                inputData >> nFinBelowSqrFt;
+                inputData >> strMLSNumber;
+                inputData >> dPercentPriceBelow;
+                inputData >> strPropertyPrice;
+                inputData >> nLandAssesses;
+
+                m_Property[zzz].Home.enterAddress(strAddress);
+                m_Property[zzz].Home.enterFinAboveSqrFt(nFinAboveSqrFt);
+                m_Property[zzz].Home.enterFinBelowSqrFt(nFinBelowSqrFt);
+                m_Property[zzz].Home.enterMLSNumber(strMLSNumber);
+                m_Property[zzz].Home.enterPercentPriceBelow(dPercentPriceBelow);
+                m_Property[zzz].Home.enterPropertyPrice(strPropertyPrice);
+                m_Property[zzz].Home.enterLandAssess(nLandAssesses);
             }
             return true;
         }
@@ -340,15 +384,16 @@ bool MainCompare::importCSV(QString strFileName)
 
     m_nCurrentNumOfProperties = nNumOfEntries-1;
     nNumberOfFields = strlFieldInfo[TITLE_LINE].count() ;
+    bool ok;
     for(int jjj = 1, III = 0; jjj < nNumOfEntries; jjj++, III++)
     {
-            bool ok;
+
             m_Property[III].Home.enterAddress(strlFieldInfo[jjj][nLocationOfAddress]);
+
             QString strAbove = strlFieldInfo[jjj][nLocationOfAboveGradeSqFt];
             int nAboveSqrFt;
-                    strAbove.remove(',');
-                   nAboveSqrFt = strAbove.toInt(&ok, 10);
-
+            strAbove.remove(',');
+            nAboveSqrFt = strAbove.toInt(&ok, 10);
             m_Property[III].Home.enterFinAboveSqrFt(nAboveSqrFt);
 
             QString strTotSqrFt = strlFieldInfo[jjj][nLocationOfFinishedSqFt];
@@ -361,7 +406,11 @@ bool MainCompare::importCSV(QString strFileName)
 
             m_Property[III].Home.enterMLSNumber(strlFieldInfo[jjj][nLocationOfMLSNum]);
 
-            //m_Property[III].Home.enterPercentPriceBelow(dPercentPriceBelow);
+            QString strLandAssess = strlFieldInfo[jjj][nLocationOfLandAssess];
+            strLandAssess.remove(',');
+            int nLandAssess = strLandAssess.toInt(&ok, 10);
+            m_Property[III].Home.enterLandAssess(nLandAssess);
+
             if(usDollarsStringToDouble(strlFieldInfo[jjj][nLocationOfSoldPrice]) < .5)
                 m_Property[III].Home.enterPropertyPrice(strlFieldInfo[jjj][nLocationOfListPrice]);
             else
@@ -372,13 +421,13 @@ bool MainCompare::importCSV(QString strFileName)
             m_Property[III].Home.enterRatioAboveToBelowPricePerSqrFt(dRatio);
 
 
-            if(!ok)
-            {
-                QMessageBox openStatus;
-                openStatus.setWindowTitle("");
-                    openStatus.setText("Conversion failed!");
-                openStatus.exec();
-            }
+//            if(!ok)
+//            {
+//                QMessageBox openStatus;
+//                openStatus.setWindowTitle("");
+//                    openStatus.setText("Conversion failed!");
+//                openStatus.exec();
+//            }
             m_Property[III].refreshFields();
     }
     return true;
@@ -386,18 +435,21 @@ bool MainCompare::importCSV(QString strFileName)
 
 void MainCompare::on_actionDelete_Selected_triggered()
 {
-    int nPropertyToDelete;
-    if(nPropertyToDelete == (MAX_NUM_OF_PROPERTIES - 1))
-            return;
-    nPropertyToDelete = ui->tableWidget->currentRow();
-    for(int iii = nPropertyToDelete; iii < m_nCurrentNumOfProperties; iii++)
+    if(m_nCurrentNumOfProperties > 0)
     {
-        m_Property[iii].Home = m_Property[(iii+1)].Home;
-        m_Property[iii].refreshFields();
-        m_Property[(iii+1)].refreshFields();
+        int nPropertyToDelete;
+        if(nPropertyToDelete == (MAX_NUM_OF_PROPERTIES - 1))
+                return;
+        nPropertyToDelete = ui->tableWidget->currentRow();
+        for(int iii = nPropertyToDelete; iii < m_nCurrentNumOfProperties; iii++)
+        {
+            m_Property[iii].Home = m_Property[(iii+1)].Home;
+            m_Property[iii].refreshFields();
+            m_Property[(iii+1)].refreshFields();
+        }
+        m_nCurrentNumOfProperties--;
+        setupTable();
     }
-    m_nCurrentNumOfProperties--;
-    setupTable();
 }
 
 void MainCompare::on_actionImport_Paragon_CSV_triggered()
@@ -420,5 +472,19 @@ void MainCompare::on_actionImport_Paragon_CSV_triggered()
             }
             openStatus.exec();
         }
+    }
+}
+void MainCompare::swapProp(int nPropA, int nPropB)
+{
+    if(        nPropA != nPropB
+            && nPropA > 0
+            && nPropB > 0
+            && nPropA < MAX_NUM_OF_PROPERTIES
+            && nPropB < MAX_NUM_OF_PROPERTIES)
+    {
+        PropertySqrftStats cTemp;
+        cTemp = m_Property[nPropA].Home;
+        m_Property[nPropA].Home = m_Property[nPropB].Home;
+        m_Property[nPropB].Home = cTemp;
     }
 }

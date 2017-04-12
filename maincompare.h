@@ -10,6 +10,7 @@
 #include <qdebug.h>
 
 #define MAX_NUM_OF_PROPERTIES 250
+#define NUM_OF_FIELDS 18
 
 enum
 {
@@ -69,6 +70,8 @@ private:
     bool saveSqrFtFile();
     bool openSqrFtFile();
     bool importCSV(QString strFileName);
+
+    void swapProp(int nPropA, int nPropB);
 };
 
 #endif // MAINCOMPARE_H
