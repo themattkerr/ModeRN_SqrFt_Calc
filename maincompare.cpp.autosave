@@ -334,6 +334,36 @@ bool MainCompare::openSqrFtFile()
             }
             return true;
         }
+        if(strVerNum == "1.2.2")
+        {
+            inputData >> nCurrentNumOfProperties;
+            m_nCurrentNumOfProperties = nCurrentNumOfProperties;
+            for(int zzz=0 ; zzz < MAX_NUM_OF_PROPERTIES ; zzz++)
+            {
+                inputData >> strAddress;
+                inputData >> nFinAboveSqrFt;
+                inputData >> nFinBelowSqrFt;
+                inputData >> strMLSNumber;
+                inputData >> dPercentPriceBelow;
+                inputData >> strPropertyPrice;
+                inputData >> nLandAssesses;
+
+                m_Property[zzz].Home.enterAddress(strAddress);
+                m_Property[zzz].Home.enterFinAboveSqrFt(nFinAboveSqrFt);
+                m_Property[zzz].Home.enterFinBelowSqrFt(nFinBelowSqrFt);
+                m_Property[zzz].Home.enterMLSNumber(strMLSNumber);
+                m_Property[zzz].Home.enterPercentPriceBelow(dPercentPriceBelow);
+                m_Property[zzz].Home.enterPropertyPrice(strPropertyPrice);
+                m_Property[zzz].Home.enterLandAssess(nLandAssesses);
+            }
+            return true;
+        }        
+        
+        
+        
+        
+        
+        
         return false;
     }
 }

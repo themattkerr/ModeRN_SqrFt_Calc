@@ -26,6 +26,7 @@ bool doubleIsEqual (double x, double y, unsigned int nNumberOfDecimalPlaces);
 double  usDollarsStringToDouble(QString qstrDollars);
 QString doubleToCurrency (double dInput, unsigned int nCurrency);
 QString millisecondsToHoursMinsSec (int nMilliseconds);
+QString addCommasToDouble(double dInput, unsigned int nNumberOfDecimalPlaces);
 
 bool  isBusinessDay(QDate dtDayToTest, QString &strReason);
 bool  isNationalHoliday(QDate dtDayToTest, QString &strHolidayName);

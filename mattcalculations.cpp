@@ -47,8 +47,25 @@ QString doubleToCurrency (double dInput, unsigned int nCurrency = US_DOLLARS)
         case US_DOLLARS:     {qstrCurrency = "$ "; break;}
     }
 
+    //qstrCurrency.append(strTemp);
     qstrCurrency.append(QLocale (QLocale::English).toString(dInput));
     return qstrCurrency;
+}
+QString addCommasToDouble(double dInput, unsigned int nNumberOfDecimalPlaces)
+{
+    dInput = roundDoubleToPoints(dInput, nNumberOfDecimalPlaces);
+    for(int iii = 1; iii <= nNumberOfDecimalPlaces; iii++)
+    {
+        dInput = dInput*10;
+    }
+    QString strTemp = QString::number(dInput,'g',10);
+    //add decimal point
+    int nCurrentLength = strTemp.length();
+    for(int iii = 0; iii <nCurrentLength; iii++)
+    {
+
+    }
+    //add commas
 }
 
 QString millisecondsToHoursMinsSec (int nMilliseconds)

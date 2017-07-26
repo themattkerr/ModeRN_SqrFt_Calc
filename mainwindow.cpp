@@ -103,9 +103,16 @@ void MainWindow::on_spinBoxFinBelow_valueChanged(int arg1)
     refreshFields();
 }
 
-void MainWindow::on_lineEdit_LandAssesses_editingFinished()
+//void MainWindow::on_lineEdit_LandAssesses_editingFinished()
+//{
+////        int nTempLandAssesses = usDollarsStringToDouble(ui->lineEdit_LandAssesses->text());
+////        Home.enterLandAssess(nTempLandAssesses);
+////        refreshFields();
+//}
+
+void MainWindow::on_lineEdit_LandAssesses_textChanged(const QString &arg1)
 {
-        int nTempLandAssesses = usDollarsStringToDouble(ui->lineEdit_LandAssesses->text());
-        Home.enterLandAssess(nTempLandAssesses);
-        refreshFields();
+    int nTempLandAssesses = usDollarsStringToDouble(ui->lineEdit_LandAssesses->text());
+    Home.enterLandAssess(nTempLandAssesses);
+    refreshFields();
 }

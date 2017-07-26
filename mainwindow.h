@@ -28,7 +28,9 @@ private slots:
     void on_spinBoxFinAbove_valueChanged(int arg1);
     void on_spinBoxFinBelow_valueChanged(int arg1);
 
-    void on_lineEdit_LandAssesses_editingFinished();
+//    void on_lineEdit_LandAssesses_editingFinished();
+
+    void on_lineEdit_LandAssesses_textChanged(const QString &arg1);
 
 private:
     Ui::MainWindow *ui;
